@@ -165,7 +165,7 @@ public class VideoQuiz extends Activity implements SurfaceHolder.Callback  {
 
     public void play2(String uri){
 
-        mediaController = new MediaController(getApplicationContext());
+        mediaController = new MediaController(VideoQuiz.this);
         mediaController.setAnchorView(vidView);
         mediaController.setMediaPlayer(vidView);
 
