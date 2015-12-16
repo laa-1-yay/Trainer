@@ -27,10 +27,9 @@ public class FullscreenPlayerActivity extends AppCompatActivity {
         vidView = (VideoView)findViewById(R.id.myVideo);
         progressBar = (ProgressBar)findViewById(R.id.progressbar);
 
-
-            mediaController = new MediaController(FullscreenPlayerActivity.this);
-            mediaController.setAnchorView(vidView);
-            mediaController.setMediaPlayer(vidView);
+        mediaController = new MediaController(FullscreenPlayerActivity.this);
+        mediaController.setAnchorView(vidView);
+        mediaController.setMediaPlayer(vidView);
 
         vidView.setMediaController(mediaController);
         vidView.setVideoURI(Uri.parse(getIntent().getStringExtra("url")));
@@ -55,7 +54,5 @@ public class FullscreenPlayerActivity extends AppCompatActivity {
                 });
             }
         });
-
     }
-
 }
