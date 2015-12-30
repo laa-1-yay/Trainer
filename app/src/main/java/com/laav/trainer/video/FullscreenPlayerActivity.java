@@ -32,7 +32,7 @@ public class FullscreenPlayerActivity extends AppCompatActivity {
         mediaController.setMediaPlayer(vidView);
 
         vidView.setMediaController(mediaController);
-        vidView.setVideoURI(Uri.parse(getIntent().getStringExtra("url")));
+        vidView.setVideoURI(Uri.parse(getIntent().getStringExtra("uri")));
         vidView.seekTo(getIntent().getIntExtra("position",0));
 
         vidView.start();

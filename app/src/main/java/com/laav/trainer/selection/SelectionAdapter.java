@@ -5,6 +5,7 @@ import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -22,6 +23,7 @@ import android.widget.VideoView;
 
 import com.laav.trainer.R;
 import com.laav.trainer.ui.ProgressBarCircular;
+import com.laav.trainer.video.VideoQuiz;
 
 import java.util.ArrayList;
 
@@ -83,6 +85,10 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
                     dialog.show();
                 }else{
 
+                    Intent intent = new Intent(mActivity, VideoQuiz.class);
+                    intent.putExtra("uri",entriesSett.get(position).toString());
+                    intent.putExtra("vidnum",position+1);
+                    mActivity.startActivity(intent);
                 }
             }
         });

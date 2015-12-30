@@ -5,16 +5,19 @@ import android.content.Intent;
 import android.media.MediaPlayer;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.MediaController;
 import android.widget.ProgressBar;
-import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.laav.trainer.R;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class VideoQuiz extends Activity  {
@@ -26,6 +29,8 @@ public class VideoQuiz extends Activity  {
     static MediaController mediaController;
     static ProgressBar progressBar;
     String videoID;
+    RecyclerView recyclerView;
+    int videoNum;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,19 +42,27 @@ public class VideoQuiz extends Activity  {
 
         Intent intent = getIntent();
         videoID = intent.getStringExtra("uri");
+        videoNum = intent.getIntExtra("vidnum",1);
+
 
         fullscreen=(ImageView) findViewById(R.id.fullscreen);
         fullscreen.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent=new Intent(getApplicationContext(), FullscreenPlayerActivity.class);
-                intent.putExtra("videoID",videoID);
+                intent.putExtra("uri",videoID);
                 if (vidView!=null)
                     intent.putExtra("position",vidView.getCurrentPosition());
                 else intent.putExtra("position",0);
                 startActivity(intent);
             }
         });
+
+        recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
+        recyclerView.setHasFixedSize(true);
+        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        QuizAdapter adapter=new QuizAdapter(getApplicationContext(),,videoNum);
+        recyclerView.setAdapter(adapter);
 
         play(videoID);
     }
