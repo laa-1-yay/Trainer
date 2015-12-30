@@ -31,6 +31,7 @@ import android.widget.HorizontalScrollView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
+import com.laav.trainer.R;
 
 
 /**

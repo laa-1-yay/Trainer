@@ -47,13 +47,11 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
     private View selectedView;
     android.os.Handler handler;
 
-    private static final String TRAINING_VIDEOS2 = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Trainer/Videos";
+    private static final String TRAINING_VIDEOS2 = Environment.getExternalStorageDirectory().getAbsolutePath()+"/WhatsApp/Media/WhatsApp Video";
 
     private static final String TRAINING_VIDEOS = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Trainer/Videos";
 
-    Context context = getActivity();
-    SharedPreferences sharedPref = context.getSharedPreferences(
-            "com.laav.trainer.VIDEONUM", Context.MODE_PRIVATE);
+    SharedPreferences sharedPref ;
 
 //    SharedPreferences.Editor editor = sharedPref.edit();
 //    editor.putInt(getString(R.string.saved_high_score), newHighScore);
@@ -70,6 +68,9 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View v = inflater.inflate(R.layout.activity_selection, container, false);
+
+        sharedPref = getActivity().getSharedPreferences(
+                "com.laav.trainer.VIDEONUM", Context.MODE_PRIVATE);
 
         noResults=(TextView)v.findViewById(R.id.no_results);
         progressBarCircular=(ProgressBarCircular)v.findViewById(R.id.progressbar);
@@ -119,7 +120,7 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
             }
         }
         else{
-            Log.d("Videos", "2");
+            Log.d("Videos", "2 : "+videoFiles.toString());
         }
     }
 

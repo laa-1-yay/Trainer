@@ -1,0 +1,41 @@
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="#000000"
+    android:orientation="vertical"
+
+   >
+
+
+        <ImageView
+            android:layout_width="match_parent"
+            android:layout_height="0dp"
+            android:layout_weight="11"
+            android:id="@+id/splash"
+            android:src="@drawable/splashscreen"
+            android:layout_gravity="center_horizontal|center_vertical|center"
+            android:gravity="center"
+            android:scaleType="fitCenter"
+            android:layout_marginRight="8dp"
+            android:layout_marginLeft="8dp"
+            android:layout_centerInParent="true"
+            android:layout_marginTop="25dp"
+
+            />
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:id="@+id/visitWebsite"
+        android:layout_weight="1"
+        android:text="Visit website"
+        android:layout_gravity="center_horizontal|center_vertical|center"
+        android:gravity="center"
+        android:textColor="#333333"
+        android:textSize="21sp"
+
+        android:visibility="invisible"
+        />
+
+</LinearLayout>

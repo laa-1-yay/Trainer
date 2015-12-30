@@ -1,7 +1,9 @@
 package com.laav.trainer.selection;
 
+import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
@@ -59,7 +61,7 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
         if(bitmap!=null){
             holder.videosImage.setImageBitmap(bitmap);
         }
-        if(position<=videoNum){
+        if(position>videoNum){
             holder.lock.setVisibility(View.VISIBLE);
         }
 
@@ -67,8 +69,14 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(position<=videoNum){
-
+                if(position>videoNum){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int id) {
+                            // User clicked OK button
+                        }
+                    });
+                    AlertDialog dialog = builder.create();
                 }else{
 
                 }
