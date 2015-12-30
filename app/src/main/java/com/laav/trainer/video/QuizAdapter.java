@@ -4,6 +4,9 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.res.AssetFileDescriptor;
+import android.graphics.drawable.Drawable;
+import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
@@ -19,6 +22,8 @@ import android.widget.TextView;
 
 import com.laav.trainer.R;
 
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 
 
@@ -28,11 +33,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
     Context context;
     ArrayList<String> answers;
     int videoNum;
+    MediaPlayer mp = new MediaPlayer();
 
     public static class QVHolder extends RecyclerView.ViewHolder {
 
         ImageButton trueA;
         ImageButton falseA;
+        ImageButton askQ;
         ImageView qPic;
         LinearLayout rootLayout;
 
@@ -41,6 +48,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
 
             trueA = (ImageButton) itemView.findViewById(R.id.trueA);
             falseA = (ImageButton) itemView.findViewById(R.id.falseA);
+            askQ = (ImageButton) itemView.findViewById(R.id.askQ);
             rootLayout = (LinearLayout) itemView.findViewById(R.id.root_layout);
             qPic = (ImageView) itemView.findViewById(R.id.qPic);
 
@@ -86,8 +94,16 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
         });
         final AlertDialog dialogFalse = builderFalse.create();
 
-        int drawableResourceId = context.getResources().getIdentifier("v"+videoNum+"p"+position+1, "drawable", context.getPackageName());
-        holder.qPic.setImageResource(drawableResourceId);
+        final int newPosition = position+1;
+        try
+        {
+            InputStream ims = context.getAssets().open("/Pictures/"+"v"+videoNum+"p"+newPosition+".jpg");
+            Drawable d = Drawable.createFromStream(ims, null);
+            holder.qPic.setImageDrawable(d);
+        } catch(IOException ex) {
+            return;
+        }
+
 
         holder.trueA.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -108,6 +124,31 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
                 }else{
                     dialogFalse.show();
                 }
+            }
+        });
+
+        holder.askQ.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                if(mp.isPlaying())
+                {
+                    mp.stop();
+                }
+
+                try {
+                    mp.reset();
+                    AssetFileDescriptor afd;
+                    afd = context.getAssets().openFd("/Audio/"+"v"+videoNum+"a"+newPosition+".mp3");
+                    mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
+                    mp.prepare();
+                    mp.start();
+                } catch (IllegalStateException e) {
+                    e.printStackTrace();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+
             }
         });
 
