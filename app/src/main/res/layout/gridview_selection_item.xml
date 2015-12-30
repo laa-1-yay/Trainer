@@ -9,12 +9,18 @@
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:layout_height="170dp"
         android:background="#111111"
         android:padding="0.7dp"
         android:orientation="vertical"
 
         >
+
+        <FrameLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+
 
         <ImageView
             android:id="@+id/gridview_image_view"
@@ -23,7 +29,17 @@
             android:layout_height="170dp"
             android:background="#000000"
 
-            android:src="#ffffff"/>
+            android:src="#000000"/>
+
+            <ImageView
+                android:id="@+id/lock"
+                android:layout_width="match_parent"
+                android:layout_gravity="center_vertical|center_horizontal|center"
+                android:layout_height="match_parent"
+                android:visibility="invisible"
+                android:src="@drawable/ic_lock_outline_white_48dp"/>
+
+        </FrameLayout>
 
     </LinearLayout>
 

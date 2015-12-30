@@ -1,17 +1,13 @@
 package com.laav.trainer.selection;
 
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.database.Cursor;
-import android.graphics.Color;
-import android.graphics.Point;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
-import android.os.Handler;
 import android.provider.MediaStore;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.DefaultItemAnimator;
@@ -22,13 +18,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.io.File;
 import java.util.ArrayList;
 import com.laav.trainer.R;
-import com.laav.trainer.Utilities;
 import com.laav.trainer.ui.ProgressBarCircular;
+import com.laav.trainer.video.VideoQuiz;
 
 
 public class SelectionFragment extends android.support.v4.app.Fragment {
@@ -52,7 +47,17 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
     private View selectedView;
     android.os.Handler handler;
 
+    private static final String TRAINING_VIDEOS2 = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Trainer/Videos";
+
     private static final String TRAINING_VIDEOS = Environment.getExternalStorageDirectory().getAbsolutePath()+"/Trainer/Videos";
+
+    Context context = getActivity();
+    SharedPreferences sharedPref = context.getSharedPreferences(
+            "com.laav.trainer.VIDEONUM", Context.MODE_PRIVATE);
+
+//    SharedPreferences.Editor editor = sharedPref.edit();
+//    editor.putInt(getString(R.string.saved_high_score), newHighScore);
+//    editor.commit();
 
     public SelectionFragment() {
         // Required empty public constructor
@@ -64,7 +69,7 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View v = inflater.inflate(R.layout.fragment_selection, container, false);
+        View v = inflater.inflate(R.layout.activity_selection, container, false);
 
         noResults=(TextView)v.findViewById(R.id.no_results);
         progressBarCircular=(ProgressBarCircular)v.findViewById(R.id.progressbar);
@@ -132,7 +137,7 @@ public class SelectionFragment extends android.support.v4.app.Fragment {
                 final Intent dataGet = data;
                 Uri videoUri = dataGet.getData();
 
-                Intent intent = new Intent(getActivity(), PlayVideo.class);
+                Intent intent = new Intent(getActivity(), VideoQuiz.class);
                 intent.putExtra("uri", getRealPathFromUri(getActivity(), videoUri));
                 startActivity(intent);
             }
