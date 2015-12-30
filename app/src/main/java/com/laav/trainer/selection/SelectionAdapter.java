@@ -1,5 +1,6 @@
 package com.laav.trainer.selection;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -16,6 +17,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
+import android.widget.Toast;
 import android.widget.VideoView;
 
 import com.laav.trainer.R;
@@ -26,17 +28,17 @@ import java.util.ArrayList;
 
 public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.ViewHolderr> {
 
-    private Context mContext;
+    private Activity mActivity;
     private int gridLayout;
 
     private ArrayList<Uri> entriesSett;
 
     SharedPreferences sharedPref ;
 
-    public SelectionAdapter(Context c, ArrayList<Uri> entries) {
+    public SelectionAdapter(Activity c, ArrayList<Uri> entries) {
         Log.d("tessst5", "hi");
 
-        this.mContext = c;
+        this.mActivity = c;
         this.entriesSett = entries;
         this.gridLayout = R.layout.gridview_selection_item;
         sharedPref = c.getSharedPreferences("com.laav.trainer.VIDEONUM", Context.MODE_PRIVATE);
@@ -70,13 +72,15 @@ public class SelectionAdapter extends RecyclerView.Adapter<SelectionAdapter.View
             @Override
             public void onClick(View v) {
                 if(position>videoNum){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(mContext);
+                    AlertDialog.Builder builder = new AlertDialog.Builder(mActivity);
+                    builder.setMessage("Video is locked");
                     builder.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
                         public void onClick(DialogInterface dialog, int id) {
                             // User clicked OK button
                         }
                     });
                     AlertDialog dialog = builder.create();
+                    dialog.show();
                 }else{
 
                 }

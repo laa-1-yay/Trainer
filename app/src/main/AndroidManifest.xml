@@ -24,7 +24,6 @@
         <activity
             android:name=".MainActivity"
             android:icon="@mipmap/ic_launcher"
-            android:windowSoftInputMode="stateVisible|adjustPan"
             android:screenOrientation="portrait" >
         </activity>
     </application>
