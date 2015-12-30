@@ -6,6 +6,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.res.AssetFileDescriptor;
 import android.graphics.drawable.Drawable;
+import android.media.AudioManager;
 import android.media.MediaPlayer;
 import android.os.Handler;
 import android.support.v7.widget.RecyclerView;
@@ -37,19 +38,19 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
 
     public static class QVHolder extends RecyclerView.ViewHolder {
 
-        ImageButton trueA;
-        ImageButton falseA;
-        ImageButton askQ;
+        ImageView trueA;
+        ImageView falseA;
+        ImageView askQ;
         ImageView qPic;
         LinearLayout rootLayout;
 
         QVHolder(final View itemView) {
             super(itemView);
 
-            trueA = (ImageButton) itemView.findViewById(R.id.trueA);
-            falseA = (ImageButton) itemView.findViewById(R.id.falseA);
-            askQ = (ImageButton) itemView.findViewById(R.id.askQ);
-            rootLayout = (LinearLayout) itemView.findViewById(R.id.root_layout);
+            trueA = (ImageView) itemView.findViewById(R.id.trueA);
+            falseA = (ImageView) itemView.findViewById(R.id.falseA);
+            askQ = (ImageView) itemView.findViewById(R.id.askQ);
+            rootLayout = (LinearLayout) itemView.findViewById(R.id.rootLayout);
             qPic = (ImageView) itemView.findViewById(R.id.qPic);
 
         }
@@ -126,6 +127,9 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
                 }
             }
         });
+
+        final AudioManager mAudioManager = (AudioManager) context.getSystemService(Context.AUDIO_SERVICE);
+        mAudioManager.setStreamVolume(AudioManager.STREAM_MUSIC, mAudioManager.getStreamMaxVolume(AudioManager.STREAM_MUSIC), 0);
 
         holder.askQ.setOnClickListener(new View.OnClickListener() {
             @Override

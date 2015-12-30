@@ -16,6 +16,12 @@ import android.widget.VideoView;
 
 import com.laav.trainer.R;
 
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
+
+import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,7 +48,7 @@ public class VideoQuiz extends Activity  {
 
         Intent intent = getIntent();
         videoID = intent.getStringExtra("uri");
-        videoNum = intent.getIntExtra("vidnum",1);
+        videoNum = intent.getIntExtra("vidnum", 1);
 
 
         fullscreen=(ImageView) findViewById(R.id.fullscreen);
@@ -61,7 +67,23 @@ public class VideoQuiz extends Activity  {
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
-        QuizAdapter adapter=new QuizAdapter(getApplicationContext(),,videoNum);
+
+        ArrayList<String> answers = new ArrayList<String>();
+        try {
+            JSONArray jsonArray = new JSONArray(loadJSONFromAsset());
+
+            for (int i = 0; i < jsonArray.length(); i++) {
+                JSONObject jo = jsonArray.getJSONObject(i);
+                if(jo.get("VNUM").equals(String.valueOf(videoNum))){
+                    answers.add(jo.get("ANS").toString());
+                }
+            }
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
+
+
+        QuizAdapter adapter=new QuizAdapter(getApplicationContext(),answers,videoNum);
         recyclerView.setAdapter(adapter);
 
         play(videoID);
@@ -112,6 +134,22 @@ public class VideoQuiz extends Activity  {
                 });
             }
         });
+    }
+
+    public String loadJSONFromAsset() {
+        String json = null;
+        try {
+            InputStream is = getApplicationContext().getAssets().open("ans.json");
+            int size = is.available();
+            byte[] buffer = new byte[size];
+            is.read(buffer);
+            is.close();
+            json = new String(buffer, "UTF-8");
+        } catch (IOException ex) {
+            ex.printStackTrace();
+            return null;
+        }
+        return json;
     }
 
 }
