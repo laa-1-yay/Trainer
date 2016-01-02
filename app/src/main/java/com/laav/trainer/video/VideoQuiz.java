@@ -15,6 +15,7 @@ import android.widget.ProgressBar;
 import android.widget.VideoView;
 
 import com.laav.trainer.R;
+import com.laav.trainer.ui.RecyclerViewDisabler;
 
 import org.json.JSONArray;
 import org.json.JSONException;
@@ -35,7 +36,7 @@ public class VideoQuiz extends Activity  {
     static MediaController mediaController;
     static ProgressBar progressBar;
     String videoID;
-    RecyclerView recyclerView;
+    public static RecyclerView recyclerView;
     int videoNum;
 
     @Override
@@ -66,7 +67,13 @@ public class VideoQuiz extends Activity  {
 
         recyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
+        LinearLayoutManager mLinearLayoutManager = new LinearLayoutManager(getApplicationContext());
+        mLinearLayoutManager.setOrientation(LinearLayoutManager.HORIZONTAL);
+        recyclerView.setLayoutManager(mLinearLayoutManager);
+
+//        // Disable scrolling recycler view
+//        RecyclerView.OnItemTouchListener disabler = new RecyclerViewDisabler();
+//        recyclerView.addOnItemTouchListener(disabler);
 
         ArrayList<String> answers = new ArrayList<String>();
         try {
@@ -74,7 +81,7 @@ public class VideoQuiz extends Activity  {
 
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject jo = jsonArray.getJSONObject(i);
-                if(jo.get("VNUM").equals(String.valueOf(videoNum))){
+                if(jo.get("VNUM").toString().equals(String.valueOf(videoNum))){
                     answers.add(jo.get("ANS").toString());
                 }
             }
@@ -83,7 +90,7 @@ public class VideoQuiz extends Activity  {
         }
 
 
-        QuizAdapter adapter=new QuizAdapter(getApplicationContext(),answers,videoNum);
+        QuizAdapter adapter=new QuizAdapter(getApplicationContext(), VideoQuiz.this,answers,videoNum);
         recyclerView.setAdapter(adapter);
 
         play(videoID);
@@ -152,4 +159,7 @@ public class VideoQuiz extends Activity  {
         return json;
     }
 
+    public static void move(){
+     recyclerView.smoothScrollBy(900,0);
+    }
 }

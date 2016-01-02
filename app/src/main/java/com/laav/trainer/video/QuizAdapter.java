@@ -33,6 +33,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
 
     private static final String TAG = "QuizAdapter";
     Context context;
+    Activity activity;
     ArrayList<String> answers;
     int videoNum;
     MediaPlayer mp = new MediaPlayer();
@@ -58,11 +59,13 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
     }
 
 
-    public QuizAdapter(Context context, ArrayList<String> answers, int videoNum ) {
+    public QuizAdapter(Context context,Activity activity, ArrayList<String> answers, int videoNum ) {
         this.videoNum = videoNum;
         this.context = context;
+        this.activity = activity;
         this.answers = answers ;
 
+        Toast.makeText(context,String.valueOf(answers.size()),Toast.LENGTH_SHORT).show();
     }
 
 
@@ -78,7 +81,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
     @Override
     public void onBindViewHolder(final QVHolder holder, final int position) {
 
-        AlertDialog.Builder builderTrue = new AlertDialog.Builder(context);
+        AlertDialog.Builder builderTrue = new AlertDialog.Builder(activity);
         builderTrue.setMessage("Correct answer");
         builderTrue.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -87,7 +90,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
         });
         final AlertDialog dialogTrue = builderTrue.create();
 
-        AlertDialog.Builder builderFalse = new AlertDialog.Builder(context);
+        AlertDialog.Builder builderFalse = new AlertDialog.Builder(activity);
         builderFalse.setMessage("Wrong answer");
         builderFalse.setPositiveButton("Okay", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
@@ -99,7 +102,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
         final int newPosition = position+1;
         try
         {
-            InputStream ims = context.getAssets().open("/Pictures/"+"v"+videoNum+"p"+newPosition+".jpg");
+            InputStream ims = context.getAssets().open("Pictures/"+"v"+videoNum+"p"+newPosition+".jpg");
             Drawable d = Drawable.createFromStream(ims, null);
             holder.qPic.setImageDrawable(d);
         } catch(IOException ex) {
@@ -112,8 +115,10 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
             public void onClick(View view) {
                 if(answers.get(position).equals("T")){
                     dialogTrue.show();
+                    VideoQuiz.move();
                 }else{
                     dialogFalse.show();
+                    VideoQuiz.move();
                 }
             }
         });
@@ -144,7 +149,7 @@ public class QuizAdapter extends RecyclerView.Adapter<QuizAdapter.QVHolder> {
                 try {
                     mp.reset();
                     AssetFileDescriptor afd;
-                    afd = context.getAssets().openFd("/Audio/"+"v"+videoNum+"a"+newPosition+".mp3");
+                    afd = context.getAssets().openFd("Audio/"+"v"+videoNum+"a"+newPosition+".mp3");
                     mp.setDataSource(afd.getFileDescriptor(),afd.getStartOffset(),afd.getLength());
                     mp.prepare();
                     mp.start();
