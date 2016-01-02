@@ -33,7 +33,8 @@
         </activity>
         <activity
             android:name=".video.FullscreenPlayerActivity"
-            android:screenOrientation="landscape" >
+            android:screenOrientation="landscape"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar">
         </activity>
     </application>
 
